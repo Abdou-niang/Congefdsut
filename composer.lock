@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "485956eb8620fe25d8f02b169103a475",
+    "content-hash": "abed48b71eedf4735086028a58a11b93",
     "packages": [
         {
             "name": "brick/math",
@@ -3352,16 +3352,16 @@
         },
         {
             "name": "saloum45/controllergenerate",
-            "version": "v2.2.9",
+            "version": "v2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saloum45/controllergenerate.git",
-                "reference": "bae3905b57afa8ba21c8541dec0fef4eca987a80"
+                "reference": "51bd28feabfa382a372ad9192a5d684d8cd9dd55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saloum45/controllergenerate/zipball/bae3905b57afa8ba21c8541dec0fef4eca987a80",
-                "reference": "bae3905b57afa8ba21c8541dec0fef4eca987a80",
+                "url": "https://api.github.com/repos/saloum45/controllergenerate/zipball/51bd28feabfa382a372ad9192a5d684d8cd9dd55",
+                "reference": "51bd28feabfa382a372ad9192a5d684d8cd9dd55",
                 "shasum": ""
             },
             "require": {
@@ -3388,9 +3388,9 @@
             "description": "😊Un package Laravel qui facilite la génération dynamique de contrôleurs,migrations et de routes dans une application Laravel. a Laravel package that makes it easy to dynamically generate controllers, migrations and routes in a Laravel application.😊",
             "support": {
                 "issues": "https://github.com/saloum45/controllergenerate/issues",
-                "source": "https://github.com/saloum45/controllergenerate/tree/v2.2.9"
+                "source": "https://github.com/saloum45/controllergenerate/tree/v2.3.3"
             },
-            "time": "2025-05-03T12:25:18+00:00"
+            "time": "2025-05-11T15:49:04+00:00"
         },
         {
             "name": "symfony/clock",

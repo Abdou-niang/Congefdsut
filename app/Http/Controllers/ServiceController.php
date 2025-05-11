@@ -38,9 +38,9 @@ class ServiceController extends Controller
             $service = new Service();
             $service->libelle = $request->libelle;
             $service->description = $request->description;
-            if ($service->save()) {
+            $service->save();
                 return $this->successResponse($service, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -59,9 +59,8 @@ class ServiceController extends Controller
             $service = Service::findOrFail($id);
             $service->libelle = $request->libelle;
             $service->description = $request->description;
-            if ($service->save()) {
+            $service->save();
                 return $this->successResponse($service, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -77,9 +76,8 @@ class ServiceController extends Controller
     {
         try {
             $service = Service::findOrFail($id);
-            if ($service->delete()) {
+            $service->delete();
                 return $this->successResponse($service, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

@@ -42,9 +42,9 @@ class DemandeCongeController extends Controller
             $demandeConge->fichier = $request->fichier;
             $demandeConge->id_user = $request->id_user;
             $demandeConge->id_typeconge = $request->id_typeconge;
-            if ($demandeConge->save()) {
+            $demandeConge->save();
                 return $this->successResponse($demandeConge, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -67,9 +67,8 @@ class DemandeCongeController extends Controller
             $demandeConge->fichier = $request->fichier;
             $demandeConge->id_user = $request->id_user;
             $demandeConge->id_typeconge = $request->id_typeconge;
-            if ($demandeConge->save()) {
+            $demandeConge->save();
                 return $this->successResponse($demandeConge, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -85,9 +84,8 @@ class DemandeCongeController extends Controller
     {
         try {
             $demandeConge = DemandeConge::findOrFail($id);
-            if ($demandeConge->delete()) {
+            $demandeConge->delete();
                 return $this->successResponse($demandeConge, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

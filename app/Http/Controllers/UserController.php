@@ -42,9 +42,9 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->email = $request->email;
             $user->password = $request->password;
-            if ($user->save()) {
+            $user->save();
                 return $this->successResponse($user, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -67,9 +67,8 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->email = $request->email;
             $user->password = $request->password;
-            if ($user->save()) {
+            $user->save();
                 return $this->successResponse($user, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -85,9 +84,8 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            if ($user->delete()) {
+            $user->delete();
                 return $this->successResponse($user, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

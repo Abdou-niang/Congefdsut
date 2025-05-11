@@ -38,9 +38,9 @@ class PrivilegeController extends Controller
             $privilege = new Privilege();
             $privilege->nom = $request->nom;
             $privilege->descripiton = $request->descripiton;
-            if ($privilege->save()) {
+            $privilege->save();
                 return $this->successResponse($privilege, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -59,9 +59,8 @@ class PrivilegeController extends Controller
             $privilege = Privilege::findOrFail($id);
             $privilege->nom = $request->nom;
             $privilege->descripiton = $request->descripiton;
-            if ($privilege->save()) {
+            $privilege->save();
                 return $this->successResponse($privilege, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -77,9 +76,8 @@ class PrivilegeController extends Controller
     {
         try {
             $privilege = Privilege::findOrFail($id);
-            if ($privilege->delete()) {
+            $privilege->delete();
                 return $this->successResponse($privilege, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

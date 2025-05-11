@@ -39,9 +39,9 @@ class CelluleController extends Controller
             $cellule->libelle = $request->libelle;
             $cellule->description = $request->description;
             $cellule->id_service = $request->id_service;
-            if ($cellule->save()) {
+            $cellule->save();
                 return $this->successResponse($cellule, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -61,9 +61,8 @@ class CelluleController extends Controller
             $cellule->libelle = $request->libelle;
             $cellule->description = $request->description;
             $cellule->id_service = $request->id_service;
-            if ($cellule->save()) {
+            $cellule->save();
                 return $this->successResponse($cellule, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -79,9 +78,8 @@ class CelluleController extends Controller
     {
         try {
             $cellule = Cellule::findOrFail($id);
-            if ($cellule->delete()) {
+            $cellule->delete();
                 return $this->successResponse($cellule, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

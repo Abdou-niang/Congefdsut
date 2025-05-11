@@ -42,9 +42,9 @@ class UtilisateurPrivilegeController extends Controller
             $utilisateurPrivilege->id_privilege = $request->id_privilege;
             $utilisateurPrivilege->id_service = $request->id_service;
             $utilisateurPrivilege->id_cellule = $request->id_cellule;
-            if ($utilisateurPrivilege->save()) {
+            $utilisateurPrivilege->save();
                 return $this->successResponse($utilisateurPrivilege, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -67,9 +67,8 @@ class UtilisateurPrivilegeController extends Controller
             $utilisateurPrivilege->id_privilege = $request->id_privilege;
             $utilisateurPrivilege->id_service = $request->id_service;
             $utilisateurPrivilege->id_cellule = $request->id_cellule;
-            if ($utilisateurPrivilege->save()) {
+            $utilisateurPrivilege->save();
                 return $this->successResponse($utilisateurPrivilege, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -85,9 +84,8 @@ class UtilisateurPrivilegeController extends Controller
     {
         try {
             $utilisateurPrivilege = UtilisateurPrivilege::findOrFail($id);
-            if ($utilisateurPrivilege->delete()) {
+            $utilisateurPrivilege->delete();
                 return $this->successResponse($utilisateurPrivilege, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

@@ -42,9 +42,9 @@ class HistoriqueDemandeCongeController extends Controller
             $historiqueDemandeConge->date_validation = $request->date_validation;
             $historiqueDemandeConge->id_user = $request->id_user;
             $historiqueDemandeConge->id_demandeconge = $request->id_demandeconge;
-            if ($historiqueDemandeConge->save()) {
+            $historiqueDemandeConge->save();
                 return $this->successResponse($historiqueDemandeConge, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -67,9 +67,8 @@ class HistoriqueDemandeCongeController extends Controller
             $historiqueDemandeConge->date_validation = $request->date_validation;
             $historiqueDemandeConge->id_user = $request->id_user;
             $historiqueDemandeConge->id_demandeconge = $request->id_demandeconge;
-            if ($historiqueDemandeConge->save()) {
+            $historiqueDemandeConge->save();
                 return $this->successResponse($historiqueDemandeConge, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -85,9 +84,8 @@ class HistoriqueDemandeCongeController extends Controller
     {
         try {
             $historiqueDemandeConge = HistoriqueDemandeConge::findOrFail($id);
-            if ($historiqueDemandeConge->delete()) {
+            $historiqueDemandeConge->delete();
                 return $this->successResponse($historiqueDemandeConge, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }

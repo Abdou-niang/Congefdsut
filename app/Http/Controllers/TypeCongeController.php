@@ -38,9 +38,9 @@ class TypeCongeController extends Controller
             $typeConge = new TypeConge();
             $typeConge->libelle = $request->libelle;
             $typeConge->description = $request->description;
-            if ($typeConge->save()) {
+            $typeConge->save();
                 return $this->successResponse($typeConge, 'Récupération réussie');
-            }
+            
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -59,9 +59,8 @@ class TypeCongeController extends Controller
             $typeConge = TypeConge::findOrFail($id);
             $typeConge->libelle = $request->libelle;
             $typeConge->description = $request->description;
-            if ($typeConge->save()) {
+            $typeConge->save();
                 return $this->successResponse($typeConge, 'Mise à jour réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
@@ -77,9 +76,8 @@ class TypeCongeController extends Controller
     {
         try {
             $typeConge = TypeConge::findOrFail($id);
-            if ($typeConge->delete()) {
+            $typeConge->delete();
                 return $this->successResponse($typeConge, 'Suppression réussie');
-            }
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }
