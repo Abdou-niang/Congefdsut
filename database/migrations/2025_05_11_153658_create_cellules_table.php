@@ -11,17 +11,18 @@ return new class extends Migration
         Schema::create('cellules', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
-$table->string('description');
-$table->unsignedBigInteger('id_service');
-$table->foreign('id_service')->references('id')->on('services')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('description')->nullable();
+            $table->unsignedBigInteger('id_service');
+            $table->foreign('id_service')->references('id')->on('services')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
-        });    }
+        });
+    }
 
     public function down()
     {
         Schema::dropIfExists('cellules');
-        if ('cellules' === "Users"||'cellules' === "User" ||'cellules' === "user"||'cellules' === "users") {
+        if ('cellules' === "Users" || 'cellules' === "User" || 'cellules' === "user" || 'cellules' === "users") {
             Schema::dropIfExists('password_reset_tokens');
             Schema::dropIfExists('sessions');
         }

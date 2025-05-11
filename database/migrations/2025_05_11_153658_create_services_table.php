@@ -11,15 +11,16 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
-$table->string('description');
+            $table->string('description')->nullable();
 
             $table->timestamps();
-        });    }
+        });
+    }
 
     public function down()
     {
         Schema::dropIfExists('services');
-        if ('services' === "Users"||'services' === "User" ||'services' === "user"||'services' === "users") {
+        if ('services' === "Users" || 'services' === "User" || 'services' === "user" || 'services' === "users") {
             Schema::dropIfExists('password_reset_tokens');
             Schema::dropIfExists('sessions');
         }

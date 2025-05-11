@@ -11,15 +11,16 @@ return new class extends Migration
         Schema::create('privileges', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-$table->string('descripiton');
+            $table->string('descripiton')->nullable();
 
             $table->timestamps();
-        });    }
+        });
+    }
 
     public function down()
     {
         Schema::dropIfExists('privileges');
-        if ('privileges' === "Users"||'privileges' === "User" ||'privileges' === "user"||'privileges' === "users") {
+        if ('privileges' === "Users" || 'privileges' === "User" || 'privileges' === "user" || 'privileges' === "users") {
             Schema::dropIfExists('password_reset_tokens');
             Schema::dropIfExists('sessions');
         }

@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-$table->string('prenom');
-$table->string('adresse');
-$table->string('telephone');
-$table->string('email');
-$table->string('password');
+            $table->string('prenom');
+            $table->string('adresse');
+            $table->string('telephone');
+            $table->string('email');
+            $table->string('password');
 
             $table->timestamps();
         });
@@ -32,12 +32,13 @@ $table->string('password');
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
-        });    }
+        });
+    }
 
     public function down()
     {
         Schema::dropIfExists('users');
-        if ('users' === "Users"||'users' === "User" ||'users' === "user"||'users' === "users") {
+        if ('users' === "Users" || 'users' === "User" || 'users' === "user" || 'users' === "users") {
             Schema::dropIfExists('password_reset_tokens');
             Schema::dropIfExists('sessions');
         }

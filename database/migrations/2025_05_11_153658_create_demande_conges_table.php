@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('date_debut');
             $table->string('nombre_jour');
             $table->string('motif');
-            $table->string('fichier');
+            $table->string('fichier')->nullable();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('id_typeconge');

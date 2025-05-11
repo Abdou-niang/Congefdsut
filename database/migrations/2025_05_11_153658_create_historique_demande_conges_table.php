@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('historique_demande_conges', function (Blueprint $table) {
             $table->id();
             $table->string('niveau_validation');
-            $table->string('decision');
-            $table->string('commentaire');
+            $table->enum('decision',['acceptée','refusée']);
+            $table->string('commentaire')->nullable();
             $table->string('date_validation');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
