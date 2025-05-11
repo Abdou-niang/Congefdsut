@@ -75,9 +75,9 @@ Route::delete('/utilisateur-privileges/{id}', [UtilisateurPrivilegeController::c
 Route::get('/utilisateur-privileges/{id}', [UtilisateurPrivilegeController::class, 'show'])->where('id', '[0-9]+');
 Route::get('/utilisateur-privileges/getformdetails', [UtilisateurPrivilegeController::class, 'getformdetails']);
 
+// Route::post('/login', [UserController::class, 'login']);
 // Routes auth sanctum
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
 });
 
-Route::get('/login', [UserController::class, 'login']);
