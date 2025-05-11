@@ -8,8 +8,8 @@ class UtilisateurPrivilege extends Model
 {
     //
     protected $fillable = [
-        'date_debut',
-        'date_fin',
+        'date',
+        'status',
         'id_user',
         'id_privilege',
         'id_service',
