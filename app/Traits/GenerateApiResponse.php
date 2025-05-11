@@ -7,7 +7,7 @@ trait GenerateApiResponse
     protected function successResponse($data = null, $message = 'Succès', $code = 200)
     {
         return response()->json([
-            'status_code' => $code,
+            'status' => $code,
             'status_message' => $message,
             'data' => $data
         ], $code);
@@ -16,7 +16,7 @@ trait GenerateApiResponse
     protected function errorResponse($message = 'Erreur', $code = 500, $error = null)
     {
         return response()->json([
-            'status_code' => $code,
+            'status' => $code,
             'status_message' => $message,
             'error' => $error
         ], $code);
