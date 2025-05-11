@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\Traits\GenerateApiResponse;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
     use GenerateApiResponse;
-    
+
         /**
      * Display a listing of the resource.
      *
@@ -44,7 +46,7 @@ class UserController extends Controller
             $user->password = $request->password;
             $user->save();
                 return $this->successResponse($user, 'Récupération réussie');
-            
+
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -117,10 +119,44 @@ class UserController extends Controller
         try {
 
             return $this->successResponse([
-                
+
             ], 'Données du formulaire récupérées avec succès');
         } catch (Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des données du formulaire', 500, $e->getMessage());
+        }
+    }
+
+
+        public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'mot_de_passe' => 'required|string',
+        ]);
+
+        try {
+
+            $user = User::where('email', $request->email)->first();
+            if (!$user || !Hash::check($request->mot_de_passe, $user->mot_de_passe)) {
+                return response()->json([
+                    'status_code' => 401,
+                    'status_message' => 'telephone ou mot de passe incorrect.'
+                ], 401);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Connexion réussie',
+                'data' => $user,
+                'token' => $token
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'status_message' => 'Erreur lors de la connexion',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

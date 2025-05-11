@@ -79,3 +79,5 @@ Route::get('/utilisateur-privileges/getformdetails', [UtilisateurPrivilegeContro
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
 });
+
+Route::get('/login', [UserController::class, 'login']);
