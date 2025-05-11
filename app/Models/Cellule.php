@@ -10,5 +10,6 @@ class Cellule extends Model
       protected $fillable = [
         'libelle',
         'description',
+        'id_service',
     ];
 }
