@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class TypeConge extends Model
 {
     //
+    protected $fillable = [
+        'libelle',
+        'description',
+    ];
 }

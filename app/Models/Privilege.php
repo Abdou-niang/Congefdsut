@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Privilege extends Model
 {
     //
+    protected $fillable = [
+        'nom',
+        'descripiton'
+    ];
 }
