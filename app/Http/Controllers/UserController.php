@@ -119,8 +119,8 @@ class UserController extends Controller
     {
         try {
             $privileges = \App\Models\Privilege::all();
-            $services = \App\Models\Privilege::all();
-            $cellules = \App\Models\Privilege::all();
+            $services = \App\Models\Service::all();
+            $cellules = \App\Models\Cellule::all();
             return $this->successResponse([
                 'privileges' => $privileges,
                 'services' => $services,
