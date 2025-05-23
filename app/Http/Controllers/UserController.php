@@ -118,8 +118,14 @@ class UserController extends Controller
     public function getformdetails()
     {
         try {
-
-            return $this->successResponse([], 'Données du formulaire récupérées avec succès');
+            $privileges = \App\Models\Privilege::all();
+            $services = \App\Models\Privilege::all();
+            $cellules = \App\Models\Privilege::all();
+            return $this->successResponse([
+                'privileges' => $privileges,
+                'services' => $services,
+                'cellules' => $cellules,
+            ], 'Données du formulaire récupérées avec succès');
         } catch (Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des données du formulaire', 500, $e->getMessage());
         }
