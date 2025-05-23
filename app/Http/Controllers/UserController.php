@@ -46,6 +46,17 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->password = $request->password;
             $user->save();
+            // insert utilisateur_privilege
+            $utilisateur_privilege=new UtilisateurPrivilegeController();
+            $request_utilisateur_privilege=new Request([
+                'id_user'=>$user->id,
+                'id_privilege'=>$request->id_privilege,
+                'id_service'=>$request->id_service,
+                'id_cellule'=>$request->id_cellule,
+                'status'=>1,
+                'date'=>now(),
+            ]);
+            $utilisateur_privilege->store($request_utilisateur_privilege);
             return $this->successResponse($user, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
