@@ -10,6 +10,11 @@ use App\Http\Controllers\TypeCongeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UtilisateurPrivilegeController;
 
+// Routes sans middleware
+Route::post('/login', [UserController::class,'login']);
+
+// Routes avec middleware
+
 // Routes pour le contrôleur CelluleController
 Route::get('/cellules', [CelluleController::class,'index']);
 Route::post('/cellules', [CelluleController::class,'store']);
