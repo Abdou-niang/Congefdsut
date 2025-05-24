@@ -152,7 +152,8 @@ class UserController extends Controller
 
         try {
 
-            $user = User::where('email', $request->email)->first();
+            // $user = User::where('email', $request->email)->first();
+            $user = User::select('*')->join('utilisateur_privileges','id_user','=','users.id')->where('email', $request->email)->first();
             if (!$user || !Hash::check($request->mot_de_passe, $user->password)) {
                 return response()->json([
                     'status_code' => 401,
