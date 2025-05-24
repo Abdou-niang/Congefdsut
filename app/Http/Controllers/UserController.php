@@ -21,7 +21,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $data = User::all();
+            $data = User::select('*')->join('utilisateur_privileges','id_user','=','users.id')->get();
             return $this->successResponse($data, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
