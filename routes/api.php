@@ -16,8 +16,8 @@ Route::post('/login', [UserController::class, 'login']);
 
 // Routes avec middleware
 Route::middleware('auth:sanctum')->group(function () {
-    // Routes pour le contrôleur CelluleController
     Route::get('/cellules', [CelluleController::class, 'index']);
+    // Routes pour le contrôleur CelluleController
     Route::post('/cellules', [CelluleController::class, 'store']);
     Route::put('/cellules/{id}', [CelluleController::class, 'update']);
     Route::delete('/cellules/{id}', [CelluleController::class, 'destroy']);
