@@ -10,6 +10,7 @@ class DemandeConge extends Model
 
     protected $fillable = [
         'date_debut',
+        'date_fin',
         'nombre_jour',
         'motif',
         'fichier',

@@ -10,7 +10,7 @@ use Exception;
 class DemandeCongeController extends Controller
 {
     use GenerateApiResponse;
-    
+
         /**
      * Display a listing of the resource.
      *
@@ -37,6 +37,7 @@ class DemandeCongeController extends Controller
         try {
             $demandeConge = new DemandeConge();
             $demandeConge->date_debut = $request->date_debut;
+            $demandeConge->date_fin = $request->date_fin;
             $demandeConge->nombre_jour = $request->nombre_jour;
             $demandeConge->motif = $request->motif;
             $demandeConge->fichier = $request->fichier;
@@ -44,7 +45,7 @@ class DemandeCongeController extends Controller
             $demandeConge->id_typeconge = $request->id_typeconge;
             $demandeConge->save();
                 return $this->successResponse($demandeConge, 'Récupération réussie');
-            
+
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
@@ -62,6 +63,7 @@ class DemandeCongeController extends Controller
         try {
             $demandeConge = DemandeConge::findOrFail($id);
             $demandeConge->date_debut = $request->date_debut;
+            $demandeConge->date_fin = $request->date_fin;
             $demandeConge->nombre_jour = $request->nombre_jour;
             $demandeConge->motif = $request->motif;
             $demandeConge->fichier = $request->fichier;
