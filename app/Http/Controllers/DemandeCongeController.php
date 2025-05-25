@@ -19,7 +19,7 @@ class DemandeCongeController extends Controller
     public function index()
     {
         try {
-            $data = DemandeConge::all();
+            $data = DemandeConge::select('*')->join('type_conges','id_typeconge','=','type_conges.id')->get();
             return $this->successResponse($data, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
