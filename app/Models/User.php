@@ -49,4 +49,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relations
+    public function privileges(){
+        return $this->hasMany(UtilisateurPrivilege::class);
+    }
+
+    public function demandes(){
+        return $this->hasMany(DemandeConge::class);
+    }
 }
