@@ -22,4 +22,8 @@ class DemandeConge extends Model
     public function user(){
         return $this->belongsTo(User::class,'id_user');
     }
+
+    public function typeconge(){
+        return $this->belongsTo(TypeConge::class,'id_typeconge');
+    }
 }

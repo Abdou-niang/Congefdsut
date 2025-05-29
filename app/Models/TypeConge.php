@@ -11,4 +11,9 @@ class TypeConge extends Model
         'libelle',
         'description',
     ];
+
+    // Relations
+    public function demandeconges(){
+        return $this->hasMany(DemandeConge::class,'id_typeconge');
+    }
 }
