@@ -21,7 +21,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $data = User::select('*')->join('utilisateur_privileges','id_user','=','users.id')->get();
+            $data = User::select('*')->join('utilisateur_privileges', 'id_user', '=', 'users.id')->get();
             return $this->successResponse($data, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
@@ -47,14 +47,14 @@ class UserController extends Controller
             $user->password = $request->password;
             $user->save();
             // insert utilisateur_privilege
-            $utilisateur_privilege=new UtilisateurPrivilegeController();
-            $request_utilisateur_privilege=new Request([
-                'id_user'=>$user->id,
-                'id_privilege'=>$request->id_privilege,
-                'id_service'=>$request->id_service,
-                'id_cellule'=>$request->id_cellule,
-                'status'=>1,
-                'date'=>now(),
+            $utilisateur_privilege = new UtilisateurPrivilegeController();
+            $request_utilisateur_privilege = new Request([
+                'id_user' => $user->id,
+                'id_privilege' => $request->id_privilege,
+                'id_service' => $request->id_service,
+                'id_cellule' => $request->id_cellule,
+                'status' => 1,
+                'date' => now(),
             ]);
             $utilisateur_privilege->store($request_utilisateur_privilege);
             return $this->successResponse($user, 'Récupération réussie');
@@ -153,7 +153,7 @@ class UserController extends Controller
         try {
 
             // $user = User::where('email', $request->email)->first();
-            $user = User::select('*')->join('utilisateur_privileges','id_user','=','users.id')->where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->first();
             if (!$user || !Hash::check($request->mot_de_passe, $user->password)) {
                 return response()->json([
                     'status_code' => 401,
@@ -162,6 +162,7 @@ class UserController extends Controller
             }
 
             $token = $user->createToken('auth_token')->plainTextToken;
+            $user = User::select('*')->join('utilisateur_privileges', 'id_user', '=', 'users.id')->where('email', $request->email)->first();
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'Connexion réussie',
@@ -172,6 +173,23 @@ class UserController extends Controller
             return response()->json([
                 'status_code' => 500,
                 'status_message' => 'Erreur lors de la connexion',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->currentAccessToken()->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Déconnexion réussie'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'status_message' => 'Erreur lors de la déconnexion',
                 'error' => $e->getMessage()
             ], 500);
         }
