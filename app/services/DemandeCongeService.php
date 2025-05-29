@@ -9,7 +9,7 @@ class DemandeCongeService
     public static function getDemandesVisiblePar(User $user)
     {
         // Si l'utilisateur est admin (id_privilege = 1), il peut tout voir
-        $isAdmin = $user->privileges()->where('privilege_id', 1)->exists();
+        $isAdmin = $user->privileges()->where('id_privilege', 1)->exists();
         if ($isAdmin) {
             return DemandeConge::all();
         }
@@ -18,7 +18,7 @@ class DemandeCongeService
         $query = DemandeConge::query();
 
         foreach ($user->privileges as $priv) {
-            switch ($priv->privilege_id) {
+            switch ($priv->id_privilege) {
                 case 2: // RH
                     $query->orWhere('statut_chef_service', 'approuvé');
                     break;
@@ -27,19 +27,19 @@ class DemandeCongeService
                     $query->orWhere(function ($q) use ($priv) {
                         $q->where('statut_chef_cellule', 'approuvé')
                           ->whereHas('user.privileges', function ($qq) use ($priv) {
-                              $qq->where('service_id', $priv->service_id);
+                              $qq->where('id_service', $priv->id_service);
                           });
                     });
                     break;
 
                 case 4: // Chef de cellule
                     $query->orWhereHas('user.privileges', function ($q) use ($priv) {
-                        $q->where('cellule_id', $priv->cellule_id);
+                        $q->where('id_cellule', $priv->id_cellule);
                     });
                     break;
 
                 default: // Employé
-                    $query->orWhere('user_id', $user->id);
+                    $query->orWhere('id_user', $user->id);
                     break;
             }
         }

@@ -17,10 +17,21 @@ class UtilisateurPrivilege extends Model
     ];
 
     // Relations
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
     }
-    public function privilege(){
-        return $this->belongsTo(Privilege::class);
+    public function privilege()
+    {
+        return $this->belongsTo(Privilege::class, 'id_privilege');
+    }
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'id_service');
+    }
+
+    public function cellule()
+    {
+        return $this->belongsTo(Cellule::class, 'id_cellule');
     }
 }

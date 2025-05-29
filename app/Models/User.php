@@ -52,10 +52,10 @@ class User extends Authenticatable
 
     // Relations
     public function privileges(){
-        return $this->hasMany(UtilisateurPrivilege::class);
+        return $this->hasMany(UtilisateurPrivilege::class,'id_user');
     }
 
     public function demandes(){
-        return $this->hasMany(DemandeConge::class);
+        return $this->hasMany(DemandeConge::class,'id_user');
     }
 }
