@@ -15,7 +15,7 @@ use App\Http\Controllers\UtilisateurPrivilegeController;
 Route::post('/login', [UserController::class, 'login']);
 
 // Routes avec middleware
-// Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/cellules', [CelluleController::class, 'index']);
     // Routes pour le contrôleur CelluleController
     Route::post('/cellules', [CelluleController::class, 'store']);
@@ -79,4 +79,4 @@ Route::post('/login', [UserController::class, 'login']);
     Route::delete('/utilisateur_privileges/{id}', [UtilisateurPrivilegeController::class, 'destroy']);
     Route::get('/utilisateur_privileges/{id}', [UtilisateurPrivilegeController::class, 'show'])->where('id', '[0-9]+');
     Route::get('/utilisateur_privileges/getformdetails', [UtilisateurPrivilegeController::class, 'getformdetails']);
-// });
+});
