@@ -11,11 +11,12 @@ class DemandeCongeService
         // Si l'utilisateur est admin (id_privilege = 1), il peut tout voir
         $isAdmin = $user->privileges()->where('id_privilege', 1)->exists();
         if ($isAdmin) {
-            return DemandeConge::all();
+            // return DemandeConge::with('typeconge')->get();
+            return DemandeConge::select('*')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->get();
         }
 
         // Construction de la requête dynamique
-        $query = DemandeConge::query();
+        $query = DemandeConge::select('*')->join('type_conges', 'id_typeconge', '=', 'type_conges.id');
 
         foreach ($user->privileges as $priv) {
             switch ($priv->id_privilege) {
