@@ -27,7 +27,7 @@ class conge extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Deamnde Congé',
+            subject: 'Deamnde de Congé',
         );
     }
 
