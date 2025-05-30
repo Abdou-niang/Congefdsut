@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Mail\conge;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CelluleController;
 use App\Http\Controllers\DemandeCongeController;
@@ -10,10 +11,15 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TypeCongeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UtilisateurPrivilegeController;
+use Illuminate\Support\Facades\Mail;
 
 // Routes sans middleware
 Route::post('/login', [UserController::class, 'login']);
 
+// mail test
+Route::get('/congemail',function(){
+    Mail::to('saloumfall45@gmail.com')->send(new conge('salam'));
+});
 
 // Routes avec middleware
 Route::middleware('auth:sanctum')->group(function () {
