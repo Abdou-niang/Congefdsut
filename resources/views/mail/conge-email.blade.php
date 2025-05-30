@@ -33,11 +33,11 @@
                             </a>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td align="center" style="padding-top: 30px;">
                             <img src="{{ asset('logo.png') }}" alt="Logo" width="100">
                         </td>
-                    </tr>
+                    </tr> -->
                 </table>
             </td>
         </tr>
