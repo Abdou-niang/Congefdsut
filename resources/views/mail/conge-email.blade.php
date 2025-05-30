@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Mail</title>
 </head>
+
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f6f6f6;">
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -31,14 +33,15 @@
                             </a>
                         </td>
                     </tr>
-                    {{-- <tr>
+                    <tr>
                         <td align="center" style="padding-top: 30px;">
                             <img src="{{ asset('logo.png') }}" alt="Logo" width="100">
                         </td>
-                    </tr> --}}
+                    </tr>
                 </table>
             </td>
         </tr>
     </table>
 </body>
+
 </html>
