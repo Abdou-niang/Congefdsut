@@ -16,7 +16,7 @@ class conge extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private string $name,private string $message)
+    public function __construct(private string $name,private string $text)
     {
         //
     }
@@ -38,7 +38,7 @@ class conge extends Mailable
     {
         return new Content(
             view: 'mail.conge-email',
-            with:['name'=>$this->name,'message'=>$this->message]
+            with:['name'=>$this->name,'text'=>$this->text]
         );
     }
 
