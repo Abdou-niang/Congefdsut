@@ -12,11 +12,11 @@ class DemandeCongeService
         $isAdmin = $user->privileges()->where('id_privilege', 1)->exists();
         if ($isAdmin) {
             // return DemandeConge::with('typeconge')->get();
-            return DemandeConge::select('*')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->get();
+            return DemandeConge::select('*','demande_conges.id as id_demande_conge')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->get();
         }
 
         // Construction de la requête dynamique
-        $query = DemandeConge::select('*')->join('type_conges', 'id_typeconge', '=', 'type_conges.id');
+        $query = DemandeConge::select('*','demande_conges.id as id_demande_conge')->join('type_conges', 'id_typeconge', '=', 'type_conges.id');
 
         foreach ($user->privileges as $priv) {
             switch ($priv->id_privilege) {
