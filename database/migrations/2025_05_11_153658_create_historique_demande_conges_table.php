@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('historique_demande_conges', function (Blueprint $table) {
             $table->id();
             $table->string('niveau_validation');
-            $table->enum('decision',['acceptée','refusée']);
+            $table->enum('decision',['approuvée','refusée']);
             $table->string('commentaire')->nullable();
             $table->string('date_validation');
             $table->unsignedBigInteger('id_user');
