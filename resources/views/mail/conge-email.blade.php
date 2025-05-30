@@ -1,2 +1,1 @@
-Salut {{ $name }},
-{{ $message }}
+Salut {{ $name }}

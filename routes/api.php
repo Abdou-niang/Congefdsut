@@ -18,7 +18,7 @@ Route::post('/login', [UserController::class, 'login']);
 
 // mail test
 Route::get('/congemail',function(){
-    Mail::to('saloumfall45@gmail.com')->send(new conge('salam','Ceci est un test de demande de congé'));
+    Mail::to('saloumfall45@gmail.com')->send(new conge('salam',"Ceci est un test de demande de congé"));
 });
 
 // Routes avec middleware
