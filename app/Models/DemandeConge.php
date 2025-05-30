@@ -26,4 +26,7 @@ class DemandeConge extends Model
     public function typeconge(){
         return $this->belongsTo(TypeConge::class,'id_typeconge');
     }
+    public function historiquedemandeconges(){
+        return $this->hasMany(HistoriqueDemandeConge::class,'id_demandeconge');
+    }
 }

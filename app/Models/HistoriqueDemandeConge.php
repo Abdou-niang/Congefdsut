@@ -15,4 +15,9 @@ class HistoriqueDemandeConge extends Model
         'id_user',
         'id_demandeconge',
     ];
+
+    // Relations
+     public function demandeconge(){
+        return $this->belongsTo(DemandeConge::class,'id_demandeconge');
+    }
 }
