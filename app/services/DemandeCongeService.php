@@ -14,7 +14,7 @@ class DemandeCongeService
         if ($isAdmin) {
             // return DemandeConge::with('typeconge')->get();
             // return DemandeConge::select('*','demande_conges.id as id_demande_conge')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->leftJoin('historique_demande_conges', 'id_demandeconge', '=', 'demande_conges.id')->get();
-            return DemandeConge::select('*', 'demande_conges.id as id_demande_conge', 'type_conges.libelle as type_conge_nom')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->with('historiquedemandeconges')->get();
+            return DemandeConge::select('*', 'demande_conges.id as id_demande_conge', 'type_conges.libelle as type_conge_nom')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->with('historiquedemandeconges')->orderBy('demande_conges.created_at','desc')->get();
         }
 
         // Construction de la requête dynamique
@@ -56,6 +56,6 @@ class DemandeCongeService
         }
 
 
-        return $query->get();
+        return $query->orderBy('demande_conges.created_at','desc')->get();
     }
 }
