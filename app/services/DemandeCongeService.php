@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\DemandeConge;
@@ -12,24 +13,27 @@ class DemandeCongeService
         $isAdmin = $user->privileges()->where('id_privilege', 1)->exists();
         if ($isAdmin) {
             // return DemandeConge::with('typeconge')->get();
-            return DemandeConge::select('*','demande_conges.id as id_demande_conge')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->get();
+            // return DemandeConge::select('*','demande_conges.id as id_demande_conge')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->leftJoin('historique_demande_conges', 'id_demandeconge', '=', 'demande_conges.id')->get();
+            return DemandeConge::select('*', 'demande_conges.id as id_demande_conge', 'type_conges.libelle as type_conge_nom')->join('type_conges', 'id_typeconge', '=', 'type_conges.id')->with('historiquedemandeconges')->get();
         }
 
         // Construction de la requête dynamique
-        $query = DemandeConge::select('*','demande_conges.id as id_demande_conge')->join('type_conges', 'id_typeconge', '=', 'type_conges.id');
+        $query = DemandeConge::select('demande_conges.*', 'demande_conges.id as id_demande_conge', 'type_conges.libelle as type_conge_nom')
+            ->join('type_conges', 'demande_conges.id_typeconge', '=', 'type_conges.id')
+            ->with('historiquedemandeconges');
 
         foreach ($user->privileges as $priv) {
             switch ($priv->id_privilege) {
                 case 2: // RH
-                    $query->orWhere('statut_chef_service', 'approuvé');
+                    $query->orWhere('decision', 'approuvée');
                     break;
 
                 case 3: // Chef de service
                     $query->orWhere(function ($q) use ($priv) {
-                        $q->where('statut_chef_cellule', 'approuvé')
-                          ->whereHas('user.privileges', function ($qq) use ($priv) {
-                              $qq->where('id_service', $priv->id_service);
-                          });
+                        $q->where('decision', 'approuvée')
+                            ->whereHas('user.privileges', function ($qq) use ($priv) {
+                                $qq->where('id_service', $priv->id_service);
+                            });
                     });
                     break;
 
