@@ -63,4 +63,22 @@ class NotificationCongeService
             $q->where('id_privilege', 2);
         })->first();
     }
+
+    public function notifierCreationDemande(DemandeConge $demande)
+    {
+        $employe = $demande->user;
+        $chefCellule = $this->getChefCellule($employe);
+
+        if ($chefCellule) {
+            $this->envoyerMail($chefCellule->email, 'Nouvelle demande de congé à valider', "Une nouvelle demande de congé a été soumise par {$employe->name}.");
+        }
+    }
+
+    protected function getChefCellule($employe)
+    {
+        return User::whereHas('privileges', function ($q) use ($employe) {
+            $q->where('id_privilege', 4) // Chef de cellule
+                ->where('id_cellule', $employe->privileges->first()->id_cellule ?? null);
+        })->first();
+    }
 }

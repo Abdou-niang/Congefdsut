@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Traits\GenerateApiResponse;
 use App\Models\DemandeConge;
 use App\Services\DemandeCongeService;
+use App\Services\NotificationCongeService;
 use Exception;
 
 class DemandeCongeController extends Controller
@@ -34,7 +35,7 @@ class DemandeCongeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, NotificationCongeService $notifier)
     {
         try {
             $demandeConge = new DemandeConge();
@@ -46,6 +47,9 @@ class DemandeCongeController extends Controller
             $demandeConge->id_user = $request->id_user;
             $demandeConge->id_typeconge = $request->id_typeconge;
             $demandeConge->save();
+
+            $notifier->notifierCreationDemande($demandeConge);
+
             return $this->successResponse($demandeConge, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
