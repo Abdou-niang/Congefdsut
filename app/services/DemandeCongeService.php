@@ -25,15 +25,21 @@ class DemandeCongeService
         foreach ($user->privileges as $priv) {
             switch ($priv->id_privilege) {
                 case 2: // RH
-                    $query->orWhere('decision', 'approuvée');
+                    $query->orWhereHas('historiquedemandeconges', function ($q) {
+                        $q->where('decision', 'approuvée')
+                            ->whereHas('user.privileges', function ($qq) {
+                                $qq->where('id_privilege', 3); // Chef de service
+                            });
+                    });
                     break;
 
                 case 3: // Chef de service
                     $query->orWhere(function ($q) use ($priv) {
-                        $q->where('decision', 'approuvée')
-                            ->whereHas('user.privileges', function ($qq) use ($priv) {
-                                $qq->where('id_service', $priv->id_service);
-                            });
+                        $q->whereHas('historiquedemandeconges', function ($hq) {
+                            $hq->where('decision', 'approuvée');
+                        })->whereHas('user.privileges', function ($pq) use ($priv) {
+                            $pq->where('id_service', $priv->id_service);
+                        });
                     });
                     break;
 
@@ -48,6 +54,7 @@ class DemandeCongeService
                     break;
             }
         }
+
 
         return $query->get();
     }
