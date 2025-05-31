@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Traits\GenerateApiResponse;
 use App\Models\HistoriqueDemandeConge;
+use App\Services\NotificationCongeService;
 use Exception;
 
 class HistoriqueDemandeCongeController extends Controller
@@ -33,7 +34,7 @@ class HistoriqueDemandeCongeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, NotificationCongeService $notifier)
     {
         try {
             $historiqueDemandeConge = new HistoriqueDemandeConge();
@@ -44,6 +45,9 @@ class HistoriqueDemandeCongeController extends Controller
             $historiqueDemandeConge->id_user = $request->id_user;
             $historiqueDemandeConge->id_demandeconge = $request->id_demandeconge;
             $historiqueDemandeConge->save();
+
+            $notifier->notifierApresValidation($historiqueDemandeConge);
+
             return $this->successResponse($historiqueDemandeConge, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
