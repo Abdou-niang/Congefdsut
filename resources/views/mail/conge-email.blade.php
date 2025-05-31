@@ -17,7 +17,7 @@
                         </td>
                     </tr> -->
                     <tr>
-                        <td align="center" style="font-size: 16px; padding-bottom: 30px;">
+                        <td align="center" style="font-size: 28px; font-weight: bold; padding-bottom: 20px;">
                             {{ $name }}
                         </td>
                     </tr>
