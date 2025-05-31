@@ -70,7 +70,7 @@ class NotificationCongeService
         $chefCellule = $this->getChefCellule($employe);
 
         if ($chefCellule) {
-            $this->envoyerMail($chefCellule->email, 'Nouvelle demande de congé à valider', "Une nouvelle demande de congé a été soumise par {$employe->name}.");
+            $this->envoyerMail($chefCellule->email, 'Nouvelle demande de congé à valider', "Une nouvelle demande de congé a été soumise.");
         }
     }
 
