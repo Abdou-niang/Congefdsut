@@ -46,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/historique_demande_conges/{id}', [HistoriqueDemandeCongeController::class, 'destroy']);
     Route::get('/historique_demande_conges/{id}', [HistoriqueDemandeCongeController::class, 'show'])->where('id', '[0-9]+');
     Route::get('/historique_demande_conges/getformdetails', [HistoriqueDemandeCongeController::class, 'getformdetails']);
+    Route::get('/historique_demande_conges_by_demande/{id}', [HistoriqueDemandeCongeController::class, 'historique_demande_conges_by_demande']);
 
     // Routes pour le contrôleur PrivilegeController
     Route::get('/privileges', [PrivilegeController::class, 'index']);

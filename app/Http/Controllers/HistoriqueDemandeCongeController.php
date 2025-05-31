@@ -10,8 +10,8 @@ use Exception;
 class HistoriqueDemandeCongeController extends Controller
 {
     use GenerateApiResponse;
-    
-        /**
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -26,7 +26,8 @@ class HistoriqueDemandeCongeController extends Controller
         }
     }
 
-        /**
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,14 +44,13 @@ class HistoriqueDemandeCongeController extends Controller
             $historiqueDemandeConge->id_user = $request->id_user;
             $historiqueDemandeConge->id_demandeconge = $request->id_demandeconge;
             $historiqueDemandeConge->save();
-                return $this->successResponse($historiqueDemandeConge, 'Récupération réussie');
-            
+            return $this->successResponse($historiqueDemandeConge, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
         }
     }
 
-        /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,13 +68,13 @@ class HistoriqueDemandeCongeController extends Controller
             $historiqueDemandeConge->id_user = $request->id_user;
             $historiqueDemandeConge->id_demandeconge = $request->id_demandeconge;
             $historiqueDemandeConge->save();
-                return $this->successResponse($historiqueDemandeConge, 'Mise à jour réussie');
+            return $this->successResponse($historiqueDemandeConge, 'Mise à jour réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
     }
 
-        /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -85,13 +85,13 @@ class HistoriqueDemandeCongeController extends Controller
         try {
             $historiqueDemandeConge = HistoriqueDemandeConge::findOrFail($id);
             $historiqueDemandeConge->delete();
-                return $this->successResponse($historiqueDemandeConge, 'Suppression réussie');
+            return $this->successResponse($historiqueDemandeConge, 'Suppression réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Suppression échouée', 500, $e->getMessage());
         }
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -101,13 +101,13 @@ class HistoriqueDemandeCongeController extends Controller
     {
         try {
             $historiqueDemandeConge = HistoriqueDemandeConge::findOrFail($id);
-             return $this->successResponse($historiqueDemandeConge, 'Ressource trouvée');
+            return $this->successResponse($historiqueDemandeConge, 'Ressource trouvée');
         } catch (Exception $e) {
             return $this->errorResponse('Ressource non trouvée', 404, $e->getMessage());
         }
     }
 
-        /**
+    /**
      * Get related form details for foreign keys.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -115,15 +115,25 @@ class HistoriqueDemandeCongeController extends Controller
     public function getformdetails()
     {
         try {
-        $users = \App\Models\User::all();
-        $demandeconges = \App\Models\Demandeconge::all();
+            $users = \App\Models\User::all();
+            $demandeconges = \App\Models\Demandeconge::all();
 
             return $this->successResponse([
                 'users' => $users,
-            'demandeconges' => $demandeconges
+                'demandeconges' => $demandeconges
             ], 'Données du formulaire récupérées avec succès');
         } catch (Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des données du formulaire', 500, $e->getMessage());
+        }
+    }
+
+    public function historique_demande_conges_by_demande($id)
+    {
+        try {
+            $data = HistoriqueDemandeConge::where('id_demandeconge','=',$id)->get();
+            return $this->successResponse($data, 'Récupération réussie');
+        } catch (Exception $e) {
+            return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
         }
     }
 }
