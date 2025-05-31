@@ -162,7 +162,7 @@ class UserController extends Controller
             }
 
             $token = $user->createToken('auth_token')->plainTextToken;
-            $user = User::select('*')->join('utilisateur_privileges', 'id_user', '=', 'users.id')->where('email', $request->email)->first();
+            $user = User::select('*','privileges.nom as nom_privilege','users.nom as nom_user')->join('utilisateur_privileges', 'id_user', '=', 'users.id')->join('privileges', 'id_privilege', '=', 'privileges.id')->where('email', $request->email)->first();
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'Connexion réussie',
