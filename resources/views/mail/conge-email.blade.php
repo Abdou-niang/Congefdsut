@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <td align="center">
-                            <a href="{{ $url ?? '#' }}" style="background-color: #233C6C; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                            <a href="{{'http://localhost:4200/' }}" style="background-color: #233C6C; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px;">
                                 Se connecter
                             </a>
                         </td>
