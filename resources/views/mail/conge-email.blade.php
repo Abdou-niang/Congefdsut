@@ -11,11 +11,11 @@
         <tr>
             <td align="center" style="padding: 40px 0;">
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; padding: 40px; border-radius: 10px;">
-                    <tr>
+                    <!-- <tr>
                         <td align="center" style="font-size: 28px; font-weight: bold; padding-bottom: 20px;">
                             Demande de congé
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td align="center" style="font-size: 16px; padding-bottom: 30px;">
                             {{ $name }}
