@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Mail;
 Route::post('/login', [UserController::class, 'login']);
 
 // mail test
-Route::get('/congemail',function(){
-    Mail::to('saloumfall45@gmail.com')->send(new conge('salam',"Ceci est un test de demande de congé"));
-});
+// Route::get('/congemail',function(){
+//     Mail::to('saloumfall45@gmail.com')->send(new conge('salam',"Ceci est un test de demande de congé"));
+// });
 
 // Routes avec middleware
 Route::middleware('auth:sanctum')->group(function () {

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\conge;
 use Illuminate\Http\Request;
 use App\Traits\GenerateApiResponse;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -21,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $data = User::select('*')->with('privileges.service','privileges.cellule','demandes.historiquedemandeconges')->get();
+            $data = User::select('*')->with('privileges.service', 'privileges.cellule', 'demandes.historiquedemandeconges')->get();
             return $this->successResponse($data, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
@@ -57,6 +58,14 @@ class UserController extends Controller
                 'date' => now(),
             ]);
             $utilisateur_privilege->store($request_utilisateur_privilege);
+
+            // Préparation du message avec retour à la ligne
+            $message = "Dans le cadre de l'application demande de congé (FDSUT), voici vos informations de connexion :\n\n"
+                . "Email : {$request->email}\n"
+                . "Mot de passe : {$request->password}\n\n"
+                . " ,Veuillez accéder à l'application en cliquant sur le bouton ci-dessous et renseigner vos informations.";
+            Mail::to($request->email)->send(new conge("Bonjour, {$request->prenom} {$request->nom}", $message));
+
             return $this->successResponse($user, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
@@ -162,7 +171,7 @@ class UserController extends Controller
             }
 
             $token = $user->createToken('auth_token')->plainTextToken;
-            $user = User::select('*','privileges.nom as nom_privilege','users.nom as nom_user')->join('utilisateur_privileges', 'id_user', '=', 'users.id')->join('privileges', 'id_privilege', '=', 'privileges.id')->where('email', $request->email)->first();
+            $user = User::select('*', 'privileges.nom as nom_privilege', 'users.nom as nom_user')->join('utilisateur_privileges', 'id_user', '=', 'users.id')->join('privileges', 'id_privilege', '=', 'privileges.id')->where('email', $request->email)->first();
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'Connexion réussie',
