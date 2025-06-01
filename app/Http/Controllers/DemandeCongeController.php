@@ -123,7 +123,7 @@ class DemandeCongeController extends Controller
     {
         try {
             $users = \App\Models\User::all();
-            $typeconges = \App\Models\Typeconge::all();
+            $typeconges = \App\Models\TypeConge::all();
 
             return $this->successResponse([
                 'users' => $users,
