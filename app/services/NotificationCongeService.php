@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Mail\Conge;
+use App\Mail\conge;
 use App\Models\DemandeConge;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -46,7 +46,7 @@ class NotificationCongeService
 
     protected function envoyerMail($email, $sujet, $contenu)
     {
-        Mail::to($email)->send(new Conge($sujet, $contenu));
+        Mail::to($email)->send(new conge($sujet, $contenu));
     }
 
     protected function getChefService($employe)

@@ -120,7 +120,7 @@ class HistoriqueDemandeCongeController extends Controller
     {
         try {
             $users = \App\Models\User::all();
-            $demandeconges = \App\Models\Demandeconge::all();
+            $demandeconges = \App\Models\DemandeConge::all();
 
             return $this->successResponse([
                 'users' => $users,
