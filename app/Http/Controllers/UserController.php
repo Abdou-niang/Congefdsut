@@ -46,6 +46,10 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->email = $request->email;
             $user->password = $request->password;
+            if (User::where('email','=',$request->email)->first()) {
+                # code...
+                return $this->successResponse($user, 'Un employé avec ce mail exist déja',409);
+            }
             $user->save();
             // insert utilisateur_privilege
             $utilisateur_privilege = new UtilisateurPrivilegeController();
