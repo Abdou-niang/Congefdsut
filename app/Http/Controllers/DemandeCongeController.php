@@ -89,6 +89,8 @@ class DemandeCongeController extends Controller
                 $filename = date('YmdHi') . 'fichier' . $file->getClientOriginalName();
                 $file->move(public_path('fichiers'), $filename);
                 $demandeConge->fichier = $filename;
+            }else{
+               $demandeConge->fichier=$request->fichier;
             }
             $demandeConge->save();
             return $this->successResponse($demandeConge, 'Mise à jour réussie');
