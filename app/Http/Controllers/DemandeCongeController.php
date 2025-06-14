@@ -46,6 +46,13 @@ class DemandeCongeController extends Controller
             $demandeConge->fichier = $request->fichier;
             $demandeConge->id_user = $request->id_user;
             $demandeConge->id_typeconge = $request->id_typeconge;
+            // fichier
+            if ($request->file('fichier')) {
+                $file = $request->file('fichier');
+                $filename = date('YmdHi') . 'fichier' . $file->getClientOriginalName();
+                $file->move(public_path('fichiers'), $filename);
+                $demandeConge->fichier = $filename;
+            }
             $demandeConge->save();
 
             $notifier->notifierCreationDemande($demandeConge);
@@ -107,7 +114,7 @@ class DemandeCongeController extends Controller
     public function show($id)
     {
         try {
-            $demandeConge = DemandeConge::with('typeconge','user.privileges.service','user.privileges.cellule')->findOrFail($id);
+            $demandeConge = DemandeConge::with('typeconge', 'user.privileges.service', 'user.privileges.cellule')->findOrFail($id);
             return $this->successResponse($demandeConge, 'Ressource trouvée');
         } catch (Exception $e) {
             return $this->errorResponse('Ressource non trouvée', 404, $e->getMessage());
