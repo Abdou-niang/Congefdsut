@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes pour le contrôleur DemandeCongeController
     Route::get('/demande_conges', [DemandeCongeController::class, 'index']);
     Route::post('/demande_conges', [DemandeCongeController::class, 'store']);
-    Route::put('/demande_conges/{id}', [DemandeCongeController::class, 'update']);
+    Route::post('/demande_conges/{id}', [DemandeCongeController::class, 'update']);
     Route::delete('/demande_conges/{id}', [DemandeCongeController::class, 'destroy']);
     Route::get('/demande_conges/{id}', [DemandeCongeController::class, 'show'])->where('id', '[0-9]+');
     Route::get('/demande_conges/getformdetails', [DemandeCongeController::class, 'getformdetails']);
