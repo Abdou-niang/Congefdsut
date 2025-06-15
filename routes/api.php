@@ -11,6 +11,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TypeCongeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UtilisateurPrivilegeController;
+use App\Http\Controllers\GmailController;
 use Illuminate\Support\Facades\Mail;
 
 // Routes sans middleware
@@ -73,6 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/type_conges/getformdetails', [TypeCongeController::class, 'getformdetails']);
 
     // Routes pour le contrôleur UserController
+    Route::put('/mot_de_passe_update', [UserController::class, 'mot_de_passe_update']);
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{id}', [UserController::class, 'update']);
@@ -91,3 +93,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes pour la décconnexion
     Route::post('/logout', [UserController::class, 'logout']);
 });
+
+
+// Mailing
+Route::get('/google/login', [GmailController::class, 'redirectToGoogle']);
+Route::get('/callback', [GmailController::class, 'handleGoogleCallback']);
+Route::get('/send-gmail', [GmailController::class, 'sendMail']);

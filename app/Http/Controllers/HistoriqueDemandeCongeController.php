@@ -46,7 +46,7 @@ class HistoriqueDemandeCongeController extends Controller
             $historiqueDemandeConge->id_demandeconge = $request->id_demandeconge;
             $historiqueDemandeConge->save();
 
-            $notifier->notifierApresValidation($historiqueDemandeConge);
+            // $notifier->notifierApresValidation($historiqueDemandeConge);
 
             return $this->successResponse($historiqueDemandeConge, 'Récupération réussie');
         } catch (Exception $e) {

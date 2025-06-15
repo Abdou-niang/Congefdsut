@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $data = User::select('*')->with('privileges.service', 'privileges.cellule', 'demandes.historiquedemandeconges')->orderBy('users.id','desc')->get();
+            $data = User::select('*')->with('privileges.service', 'privileges.cellule', 'demandes.historiquedemandeconges')->orderBy('users.id', 'desc')->get();
             return $this->successResponse($data, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
@@ -46,9 +46,9 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->email = $request->email;
             $user->password = $request->password;
-            if (User::where('email','=',$request->email)->first()) {
+            if (User::where('email', '=', $request->email)->first()) {
                 # code...
-                return $this->successResponse($user, 'Un employé avec ce mail exist déja',409);
+                return $this->successResponse($user, 'Un employé avec ce mail exist déja', 409);
             }
             $user->save();
             // insert utilisateur_privilege
@@ -64,11 +64,11 @@ class UserController extends Controller
             $utilisateur_privilege->store($request_utilisateur_privilege);
 
             // Préparation du message avec retour à la ligne
-            $message = "Dans le cadre de l'application demande de congé (FDSUT), voici vos informations de connexion :\n\n"
-                . "Email : {$request->email}\n"
-                . "Mot de passe : {$request->password}\n\n"
-                . " ,Veuillez accéder à l'application en cliquant sur le bouton ci-dessous et renseigner vos informations.";
-            Mail::to($request->email)->send(new conge("Bonjour, {$request->prenom} {$request->nom}", $message));
+            // $message = "Dans le cadre de l'application demande de congé (FDSUT), voici vos informations de connexion :\n\n"
+            //     . "Email : {$request->email}\n"
+            //     . "Mot de passe : {$request->password}\n\n"
+            //     . " ,Veuillez accéder à l'application en cliquant sur le bouton ci-dessous et renseigner vos informations.";
+            // Mail::to($request->email)->send(new conge("Bonjour, {$request->prenom} {$request->nom}", $message));
 
             return $this->successResponse($user, 'Récupération réussie');
         } catch (Exception $e) {
@@ -205,6 +205,59 @@ class UserController extends Controller
                 'status_message' => 'Erreur lors de la déconnexion',
                 'error' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function mot_de_passe_update(request $request)
+    {
+        //
+        try {
+            // if (!auth()->check()) {
+            //     return response()->json([
+            //         'status_code' => 401,
+            //         'status_message' => 'Veuillez vous connecter pour effectuer cette action'
+            //     ], 401);
+            // }
+            // $user = User::where('id', $request->id)->first();
+            $user = Auth()->user();
+            if (!Hash::check($request->ancien_mot_de_passe, $user->password)) {
+                # code...
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Le mot de passe ne correspond pas à l\'ancien'
+                ], 403);
+            }
+            $user->password = Hash::make($request->nouveau_mot_de_passe);
+            // $user->mot_de_passe=hash::make($request->mot_de_passe);
+            if ($user->save()) {
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Modification réussie',
+                    'data' => $user,
+                ], 200);
+            }
+        } catch (Exception $e) {
+            //throw $th;
+            return response()->json([
+                'status_code' => 500,
+                'status_message' => 'Modification échouée',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update_profil(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->nom = $request->nom;
+            $user->prenom = $request->prenom;
+            $user->adresse = $request->adresse;
+            $user->telephone = $request->telephone;
+            $user->save();
+            return $this->successResponse($user, 'Mise à jour réussie');
+        } catch (Exception $e) {
+            return $this->errorResponse('Mise à jour échouée', 500, $e->getMessage());
         }
     }
 }
