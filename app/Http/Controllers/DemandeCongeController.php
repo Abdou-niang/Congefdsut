@@ -57,7 +57,7 @@ class DemandeCongeController extends Controller
             }
             $demandeConge->save();
 
-            $notifier->notifierCreationDemande($demandeConge);
+            // $notifier->notifierCreationDemande($demandeConge);
 
             return $this->successResponse($demandeConge, 'Récupération réussie');
         } catch (Exception $e) {
