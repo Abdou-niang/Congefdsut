@@ -31,14 +31,14 @@ class GmailController extends Controller
         $token = $client->fetchAccessTokenWithAuthCode($request->get('code'));
         session(['gmail_token' => $token]);
 
-        return redirect('/send-gmail');
+        return redirect('/api/send-gmail');
     }
 
     public function sendMail()
     {
         $token = session('gmail_token');
         if (!$token) {
-            return redirect('/google/login');
+            return redirect('/api/google/login');
         }
 
         $client = new Google_Client();
@@ -46,7 +46,7 @@ class GmailController extends Controller
         $client->setAccessToken($token);
 
         if ($client->isAccessTokenExpired()) {
-            return redirect('/google/login');
+            return redirect('/api/google/login');
         }
 
         $service = new Google_Service_Gmail($client);
@@ -54,7 +54,7 @@ class GmailController extends Controller
         $message = new Google_Service_Gmail_Message();
 
         $rawMessageString = "From: me\r\n";
-        $rawMessageString .= "To: destinataire@example.com\r\n";
+        $rawMessageString .= "To: saloumfall45@gmail.com\r\n";
         $rawMessageString .= "Subject: Test Gmail API\r\n\r\n";
         $rawMessageString .= "Ceci est un message envoyé depuis Laravel via l'API Gmail.";
 
@@ -67,4 +67,5 @@ class GmailController extends Controller
         return "Message envoyé avec succès !";
     }
 }
+
 
