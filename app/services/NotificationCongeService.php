@@ -7,6 +7,9 @@ use App\Models\DemandeConge;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
+use Google_Client;
+use Google_Service_Gmail;
+use Google_Service_Gmail_Message;
 
 class NotificationCongeService
 {
@@ -47,7 +50,8 @@ class NotificationCongeService
 
     protected function envoyerMail($email, $sujet, $contenu)
     {
-        Mail::to($email)->send(new conge($sujet, $contenu));
+        // Mail::to($email)->send(new conge($sujet, $contenu));
+        $this->envoyerMailViaGmailApi($email, $sujet, $contenu);
     }
 
     protected function getChefService($employe)
@@ -119,6 +123,6 @@ class NotificationCongeService
 
         $service->users_messages->send("me", $message);
 
-        return "Message envoyé avec Gmail API.";
+        // return "Message envoyé avec Gmail API.";
     }
 }
