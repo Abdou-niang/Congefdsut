@@ -6,6 +6,7 @@ use App\Mail\conge;
 use App\Models\DemandeConge;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 
 class NotificationCongeService
 {
@@ -80,5 +81,44 @@ class NotificationCongeService
             $q->where('id_privilege', 4) // Chef de cellule
                 ->where('id_cellule', $employe->privileges->first()->id_cellule ?? null);
         })->first();
+    }
+
+
+
+    protected function envoyerMailViaGmailApi($email, $sujet, $contenu)
+    {
+        // 1. Instancier ton Mailable
+        $mail = new conge($sujet, $contenu);
+
+        // 2. Générer le HTML du mail
+        $html = $mail->render();
+
+        // 3. Utiliser Google API pour envoyer
+        $client = new \Google_Client();
+        $client->setAuthConfig(public_path('client_secret_808301309884-8ogik6lcrub2kf4741n5k72e4h2obrsf.apps.googleusercontent.com.json'));
+        $client->setAccessToken(session('gmail_token'));
+
+        if ($client->isAccessTokenExpired()) {
+            return redirect('/google/login');
+        }
+
+        $service = new \Google_Service_Gmail($client);
+        $message = new \Google_Service_Gmail_Message();
+
+        // Gmail API attend un message "raw" encodé
+        $rawMessageString = "To: $email\r\n";
+        $rawMessageString .= "Subject: " . $sujet . "\r\n";
+        $rawMessageString .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
+        $rawMessageString .= $html;
+
+        // Encodage base64 URL-safe
+        $raw = base64_encode($rawMessageString);
+        $raw = str_replace(['+', '/', '='], ['-', '_', ''], $raw);
+
+        $message->setRaw($raw);
+
+        $service->users_messages->send("me", $message);
+
+        return "Message envoyé avec Gmail API.";
     }
 }

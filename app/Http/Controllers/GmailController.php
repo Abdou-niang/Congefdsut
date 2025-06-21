@@ -31,14 +31,14 @@ class GmailController extends Controller
         $token = $client->fetchAccessTokenWithAuthCode($request->get('code'));
         session(['gmail_token' => $token]);
 
-        return redirect('/api/send-gmail');
+        return redirect('/send-gmail');
     }
 
     public function sendMail()
     {
         $token = session('gmail_token');
         if (!$token) {
-            return redirect('/api/google/login');
+            return redirect('/google/login');
         }
 
         $client = new Google_Client();
@@ -46,7 +46,7 @@ class GmailController extends Controller
         $client->setAccessToken($token);
 
         if ($client->isAccessTokenExpired()) {
-            return redirect('/api/google/login');
+            return redirect('/google/login');
         }
 
         $service = new Google_Service_Gmail($client);
