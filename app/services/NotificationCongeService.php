@@ -21,7 +21,7 @@ class NotificationCongeService
 
         // Refusé → notifier uniquement l'employé
         if ($historique->decision === 'refusée') {
-            $this->envoyerMail($employe->email, 'Demande de congé refusée', 'Votre demande de congé a été refusée.');
+            $this->envoyerMail($employe->email, 'Demande de congé refusée', 'Votre demande de congé a été refusée. Connectez-vous pour plus de détails.');
             return;
         }
 
@@ -31,19 +31,19 @@ class NotificationCongeService
                 case 4: // Chef de cellule
                     $chefService = $this->getChefService($employe);
                     if ($chefService) {
-                        $this->envoyerMail($chefService->email, 'Nouvelle demande de congé à valider', "Une demande de congé a été approuvée par le chef de cellule.");
+                        $this->envoyerMail($chefService->email, 'Nouvelle demande de congé à valider', "Une demande de congé a été approuvée par le chef de cellule. Connectez-vous pour plus de détails.");
                     }
                     break;
 
                 case 3: // Chef de service
                     $rh = $this->getRh();
                     if ($rh) {
-                        $this->envoyerMail($rh->email, 'Nouvelle demande de congé à valider RH', "Une demande de congé a été approuvée par le chef de service.");
+                        $this->envoyerMail($rh->email, 'Nouvelle demande de congé à valider RH', "Une demande de congé a été approuvée par le chef de service. Connectez-vous pour plus de détails.");
                     }
                     break;
 
                 case 2: // RH
-                    $this->envoyerMail($employe->email, 'Demande de congé approuvée RH', "Votre demande de congé a été définitivement approuvée.");
+                    $this->envoyerMail($employe->email, 'Demande de congé approuvée RH', "Votre demande de congé a été définitivement approuvée. Connectez-vous pour plus de détails.");
                     break;
             }
         }
@@ -76,7 +76,7 @@ class NotificationCongeService
         $chefCellule = $this->getChefCellule($employe);
 
         if ($chefCellule) {
-            $this->envoyerMail($chefCellule->email, 'Nouvelle demande de congé à valider', "Une nouvelle demande de congé a été soumise.");
+            $this->envoyerMail($chefCellule->email, 'Nouvelle demande de congé à valider', "Une nouvelle demande de congé a été soumise. Connectez-vous pour plus de détails.");
         }
     }
 
@@ -92,7 +92,7 @@ class NotificationCongeService
 
 
 
-    protected function envoyerMailViaGmailApi($email, $sujet, $contenu)
+    public function envoyerMailViaGmailApi($email, $sujet, $contenu)
     {
         // Récupère le token de la base
         $gmailUser = GmailToken::first(); // ou ->where('email', 'ton-compte@gmail.com')->first()

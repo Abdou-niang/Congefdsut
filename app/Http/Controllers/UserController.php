@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Services\NotificationCongeService;
 
 class UserController extends Controller
 {
@@ -64,12 +65,16 @@ class UserController extends Controller
             $utilisateur_privilege->store($request_utilisateur_privilege);
 
             // Préparation du message avec retour à la ligne
-            // $message = "Dans le cadre de l'application demande de congé (FDSUT), voici vos informations de connexion :\n\n"
-            //     . "Email : {$request->email}\n"
-            //     . "Mot de passe : {$request->password}\n\n"
-            //     . " ,Veuillez accéder à l'application en cliquant sur le bouton ci-dessous et renseigner vos informations.";
-            // Mail::to($request->email)->send(new conge("Bonjour, {$request->prenom} {$request->nom}", $message));
+            $sujet = "Informations de connexion - Demande de congé (FDSUT)";
+            $corps = "Bonjour, {$request->prenom} {$request->nom},\n\n"
+                . "Dans le cadre de l'application demande de congé (FDSUT), voici vos informations de connexion :\n\n"
+                . "Email : {$request->email}\n"
+                . "Mot de passe : {$request->password}\n\n"
+                . "Veuillez accéder à l'application en cliquant sur le bouton ci-dessous et renseigner vos informations.";
 
+
+            $notifier = new NotificationCongeService();
+            $notifier->envoyerMailViaGmailApi($request->email, $sujet, $corps);
             return $this->successResponse($user, 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Insertion échouée', 500, $e->getMessage());
