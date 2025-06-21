@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\View;
 use Google_Client;
 use Google_Service_Gmail;
 use Google_Service_Gmail_Message;
+use App\Models\GmailToken;
 
 class NotificationCongeService
 {
@@ -89,40 +90,52 @@ class NotificationCongeService
 
 
 
+
+
     protected function envoyerMailViaGmailApi($email, $sujet, $contenu)
     {
-        // 1. Instancier ton Mailable
-        $mail = new conge($sujet, $contenu);
+        // Récupère le token de la base
+        $gmailUser = GmailToken::first(); // ou ->where('email', 'ton-compte@gmail.com')->first()
 
-        // 2. Générer le HTML du mail
-        $html = $mail->render();
-
-        // 3. Utiliser Google API pour envoyer
-        $client = new \Google_Client();
-        $client->setAuthConfig(public_path('client_secret_808301309884-8ogik6lcrub2kf4741n5k72e4h2obrsf.apps.googleusercontent.com.json'));
-        $client->setAccessToken(session('gmail_token'));
-
-        if ($client->isAccessTokenExpired()) {
-            return redirect('/google/login');
+        if (!$gmailUser) {
+            throw new \Exception("Aucun token Gmail trouvé. Connectez-vous via /google/login.");
         }
 
+        // 1. Instancier le Mailable
+        $mail = new conge($sujet, $contenu);
+
+        // 2. Générer le HTML
+        $html = $mail->render();
+
+        // 3. Initialiser Google Client
+        $client = new \Google_Client();
+        $client->setAuthConfig(public_path('client_secret_808301309884-8ogik6lcrub2kf4741n5k72e4h2obrsf.apps.googleusercontent.com.json'));
+        $client->addScope(\Google_Service_Gmail::GMAIL_SEND);
+        $client->setAccessToken($gmailUser->token);
+
+        // 4. Rafraîchir si expiré
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+
+            // Sauvegarder le nouveau token
+            $gmailUser->token = $client->getAccessToken();
+            $gmailUser->save();
+        }
+
+        // 5. Préparer le message
         $service = new \Google_Service_Gmail($client);
         $message = new \Google_Service_Gmail_Message();
 
-        // Gmail API attend un message "raw" encodé
-        $rawMessageString = "To: $email\r\n";
-        $rawMessageString .= "Subject: " . $sujet . "\r\n";
-        $rawMessageString .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
-        $rawMessageString .= $html;
+        $rawMessage = "To: $email\r\n";
+        $rawMessage .= "Subject: $sujet\r\n";
+        $rawMessage .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
+        $rawMessage .= $html;
 
-        // Encodage base64 URL-safe
-        $raw = base64_encode($rawMessageString);
-        $raw = str_replace(['+', '/', '='], ['-', '_', ''], $raw);
+        $encodedMessage = base64_encode($rawMessage);
+        $encodedMessage = str_replace(['+', '/', '='], ['-', '_', ''], $encodedMessage);
+        $message->setRaw($encodedMessage);
 
-        $message->setRaw($raw);
-
-        $service->users_messages->send("me", $message);
-
-        // return "Message envoyé avec Gmail API.";
+        // 6. Envoi
+        $service->users_messages->send('me', $message);
     }
 }

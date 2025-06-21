@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Google_Client;
 use Google_Service_Gmail;
 use Google_Service_Gmail_Message;
+use App\Models\GmailToken;
 
 class GmailController extends Controller
 {
@@ -22,16 +23,47 @@ class GmailController extends Controller
         return redirect()->away($authUrl);
     }
 
+    // public function handleGoogleCallback(Request $request)
+    // {
+    //     $client = new Google_Client();
+    //     $client->setAuthConfig(public_path('client_secret_808301309884-8ogik6lcrub2kf4741n5k72e4h2obrsf.apps.googleusercontent.com.json'));
+    //     $client->setRedirectUri(env('GMAIL_REDIRECT_URI'));
+
+    //     $token = $client->fetchAccessTokenWithAuthCode($request->get('code'));
+    //     session(['gmail_token' => $token]);
+
+    //     return redirect('/send-gmail');
+    // }
     public function handleGoogleCallback(Request $request)
     {
-        $client = new Google_Client();
+        $client = new \Google_Client();
         $client->setAuthConfig(public_path('client_secret_808301309884-8ogik6lcrub2kf4741n5k72e4h2obrsf.apps.googleusercontent.com.json'));
         $client->setRedirectUri(env('GMAIL_REDIRECT_URI'));
+        $client->addScope(\Google_Service_Gmail::GMAIL_SEND);
 
+        // Récupère le token avec le code
         $token = $client->fetchAccessTokenWithAuthCode($request->get('code'));
-        session(['gmail_token' => $token]);
 
-        return redirect('/send-gmail');
+        if (isset($token['error'])) {
+            return response()->json(['error' => $token['error']], 400);
+        }
+
+        // Vérifie l'identité de l'utilisateur connecté
+        $oauthUser = $client->verifyIdToken($token['id']);
+
+        if (!$oauthUser || !isset($oauthUser['email'])) {
+            return response()->json(['error' => 'Impossible de récupérer l\'email de l\'utilisateur Google.'], 400);
+        }
+
+        $email = $oauthUser['email'];
+
+        // Enregistre ou met à jour le token en base
+        GmailToken::updateOrCreate(
+            ['email' => $email],
+            ['token' => $token]
+        );
+
+        return redirect('/send-gmail')->with('success', "Compte Gmail connecté : $email");
     }
 
     public function sendMail()
@@ -67,5 +99,3 @@ class GmailController extends Controller
         return "Message envoyé avec succès !";
     }
 }
-
-
