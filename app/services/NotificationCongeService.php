@@ -125,9 +125,9 @@ class NotificationCongeService
         // 5. Préparer le message
         $service = new \Google_Service_Gmail($client);
         $message = new \Google_Service_Gmail_Message();
-
+        $encodedSubject = '=?UTF-8?B?' . base64_encode($sujet) . '?=';
         $rawMessage = "To: $email\r\n";
-        $rawMessage .= "Subject: $sujet\r\n";
+        $rawMessage .= "Subject: $encodedSubject\r\n";
         $rawMessage .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
         $rawMessage .= $html;
 
