@@ -13,3 +13,4 @@ Route::get('/hi', function () {
 Route::get('/google/login', [GmailController::class, 'redirectToGoogle']);
 Route::get('/callback', [GmailController::class, 'handleGoogleCallback']);
 Route::get('/send-gmail', [GmailController::class, 'sendMail']);
+Route::get('/jours_feries', [GmailController::class, 'getJoursFerier']);
