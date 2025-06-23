@@ -124,11 +124,16 @@ class GmailController extends Controller
 
         $service = new Google_Service_Calendar($client);
 
-        // Exemple pour la France
+        // Exemple pour
+        $annee = date('Y'); // année courante, ex : 2025
+
+        $timeMin = date('c', strtotime("$annee-01-01"));
+        $timeMax = date('c', strtotime("$annee-12-31"));
+
         $calendarId = 'fr.sn#holiday@group.v.calendar.google.com';
         $optParams = array(
-            'timeMin' => date('c', strtotime('2025-01-01')),
-            'timeMax' => date('c', strtotime('2025-12-31')),
+            'timeMin' => $timeMin,
+            'timeMax' => $timeMax,
             'singleEvents' => true,
             'orderBy' => 'startTime'
         );
