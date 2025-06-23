@@ -135,8 +135,14 @@ class GmailController extends Controller
         $results = $service->events->listEvents($calendarId, $optParams);
 
         $joursFeries = [];
+        // foreach ($results->getItems() as $event) {
+        //     $joursFeries[] = $event->getStart()->getDate(); // format YYYY-MM-DD
+        // }
         foreach ($results->getItems() as $event) {
-            $joursFeries[] = $event->getStart()->getDate(); // format YYYY-MM-DD
+            $joursFeries[] = [
+                'date' => $event->getStart()->getDate(),        // ex: "2025-01-01"
+                'titre' => $event->getSummary(),                // ex: "Jour de l'an"
+            ];
         }
         return json_encode([
             "jours_feries" => $joursFeries
