@@ -149,7 +149,7 @@ class GmailController extends Controller
                 'titre' => $event->getSummary(),                // ex: "Jour de l'an"
             ];
         }
-        return json_encode([
+        return response()->json([
             "jours_feries" => $joursFeries
         ]);
     }
