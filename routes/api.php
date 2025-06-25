@@ -4,6 +4,7 @@
 use App\Mail\conge;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CelluleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandeCongeController;
 use App\Http\Controllers\HistoriqueDemandeCongeController;
 use App\Http\Controllers\PrivilegeController;
@@ -92,6 +93,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Routes pour la décconnexion
     Route::post('/logout', [UserController::class, 'logout']);
+
+    // Routes pour le dashboard
+    Route::get('get_dashboard', [DashboardController::class, 'get_dashboard']);
 });
 
 
