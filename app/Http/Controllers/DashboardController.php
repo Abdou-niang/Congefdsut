@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
             return $this->successResponse([
                 "demandes"=>$data,
-                "feries"=>$getjoursferiers->getJoursFerier()
+                "feries"=>  $getjoursferiers->getJoursFerier()
             ], 'Récupération réussie');
         } catch (Exception $e) {
             return $this->errorResponse('Récupération échouée', 500, $e->getMessage());
