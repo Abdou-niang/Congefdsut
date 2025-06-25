@@ -147,7 +147,7 @@ class DemandeCongeController extends Controller
             return $this->successResponse([
                 'users' => $users,
                 'typeconges' => $typeconges,
-                'getjoursferiers'=>$getjoursferiers->getJoursFerier()
+                'feries'=>$getjoursferiers->getJoursFerier()
             ], 'Données du formulaire récupérées avec succès');
         } catch (Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des données du formulaire', 500, $e->getMessage());

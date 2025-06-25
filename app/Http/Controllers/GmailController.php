@@ -154,7 +154,7 @@ class GmailController extends Controller
         // return response()->json([
         //     "jours_feries" => $joursFeries
         // ]);
-
-        return $this->successResponse($joursFeries, 'Récupération réussie');
+        return $joursFeries;
+        // return $this->successResponse($joursFeries, 'Récupération réussie');
     }
 }
