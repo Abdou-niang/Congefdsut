@@ -96,6 +96,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 // Mailing
+// Route::get('/google/login', [GmailController::class, 'redirectToGoogle']);
+// Route::get('/callback', [GmailController::class, 'handleGoogleCallback']);
+// Route::get('/send-gmail', [GmailController::class, 'sendMail']);
 Route::get('/google/login', [GmailController::class, 'redirectToGoogle']);
 Route::get('/callback', [GmailController::class, 'handleGoogleCallback']);
 Route::get('/send-gmail', [GmailController::class, 'sendMail']);
+Route::get('/jours_feries', [GmailController::class, 'getJoursFerier']);

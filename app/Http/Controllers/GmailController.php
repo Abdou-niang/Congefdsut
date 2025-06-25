@@ -8,9 +8,11 @@ use Google_Service_Gmail;
 use Google_Service_Gmail_Message;
 use Google_Service_Calendar;
 use App\Models\GmailToken;
+use App\Traits\GenerateApiResponse;
 
 class GmailController extends Controller
 {
+    use GenerateApiResponse;
     public function redirectToGoogle()
     {
         $client = new Google_Client();
@@ -149,8 +151,10 @@ class GmailController extends Controller
                 'titre' => $event->getSummary(),                // ex: "Jour de l'an"
             ];
         }
-        return response()->json([
-            "jours_feries" => $joursFeries
-        ]);
+        // return response()->json([
+        //     "jours_feries" => $joursFeries
+        // ]);
+
+         return $this->successResponse($joursFeries, 'Récupération réussie');
     }
 }
