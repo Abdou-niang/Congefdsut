@@ -125,7 +125,7 @@ class DemandeCongeController extends Controller
     public function show($id)
     {
         try {
-            $demandeConge = DemandeConge::with('typeconge', 'user.privileges.service', 'user.privileges.cellule')->findOrFail($id);
+            $demandeConge = DemandeConge::with('typeconge', 'user.privileges.service', 'user.privileges.cellule','user.demandes.historiquedemandeconges')->findOrFail($id);
             return $this->successResponse($demandeConge, 'Ressource trouvée');
         } catch (Exception $e) {
             return $this->errorResponse('Ressource non trouvée', 404, $e->getMessage());

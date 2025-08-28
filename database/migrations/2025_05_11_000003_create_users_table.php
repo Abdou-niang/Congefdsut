@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('prenom');
             $table->string('adresse');
             $table->string('telephone');
+            $table->integer('nombre_jours_conge');
             $table->string('email');
             $table->string('password');
 

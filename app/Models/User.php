@@ -24,6 +24,7 @@ class User extends Authenticatable
         'adresse',
         'telephone',
         'email',
+        'nombre_jours_conge',
         'password',
     ];
 

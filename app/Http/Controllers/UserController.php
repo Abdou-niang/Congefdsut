@@ -46,6 +46,7 @@ class UserController extends Controller
             $user->adresse = $request->adresse;
             $user->telephone = $request->telephone;
             $user->email = $request->email;
+            $user->nombre_jours_conge = $request->nombre_jours_conge;
             $user->password = $request->password;
             if (User::where('email', '=', $request->email)->first()) {
                 # code...
@@ -97,6 +98,7 @@ class UserController extends Controller
             $user->matricule = $request->matricule;
             $user->adresse = $request->adresse;
             $user->telephone = $request->telephone;
+            $user->nombre_jours_conge = $request->nombre_jours_conge;
             $user->email = $request->email;
             $user->password = $request->password;
             $user->save();
